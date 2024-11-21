@@ -3,12 +3,13 @@
 #include <arpa/inet.h>
 #include <memory>
 
-#include "SocketTcp.hpp"
+#include "protocol/ProtocolFactoryTcp.hpp"
 
 
 int main()
 {
-    std::shared_ptr<netwrap::ISocket> socket = std::make_shared<netwrap::SocketTcp>();
+    std::shared_ptr<netwrap::IProtocolFactory> protocolFactory = std::make_shared<netwrap::ProtocolFactoryTcp>();
+    std::shared_ptr<netwrap::ISocket> socket = protocolFactory->createSocket();
 
     struct sockaddr_in serv_addr;
     serv_addr.sin_family = AF_INET;

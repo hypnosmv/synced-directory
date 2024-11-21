@@ -3,12 +3,13 @@
 #include <unistd.h>
 #include <memory>
 
-#include "SocketTcp.hpp"
+#include "protocol/ProtocolFactoryTcp.hpp"
 
 
 int main()
 {
-    std::shared_ptr<netwrap::ISocket> serverSocket = std::make_shared<netwrap::SocketTcp>();
+    std::shared_ptr<netwrap::IProtocolFactory> protocolFactory = std::make_shared<netwrap::ProtocolFactoryTcp>();
+    std::shared_ptr<netwrap::ISocket> serverSocket = protocolFactory->createSocket();
 
     struct sockaddr_in address;
     address.sin_family = AF_INET;
