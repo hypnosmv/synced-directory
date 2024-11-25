@@ -4,6 +4,8 @@
 #include <memory>
 
 #include "protocol/ProtocolFactoryTcp.hpp"
+#include "IPv4.hpp"
+#include "Port.hpp"
 
 
 int main()
@@ -11,10 +13,13 @@ int main()
     std::shared_ptr<netwrap::IProtocolFactory> protocolFactory = std::make_shared<netwrap::ProtocolFactoryTcp>();
     std::shared_ptr<netwrap::ISocket> serverSocket = protocolFactory->createSocket();
 
+    netwrap::IPv4 anyIp;
+    netwrap::Port port(1100);
+
     struct sockaddr_in address;
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(1100);
+    address.sin_family = anyIp.getFamily();
+    address.sin_addr.s_addr = anyIp.getAddress();
+    address.sin_port = port.getPort();
 
     if (bind(serverSocket->getDescriptor(), (struct sockaddr*)&address, sizeof(address)) < 0)
     {
